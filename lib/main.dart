@@ -1,3 +1,4 @@
+import 'package:basicui/util/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'screen/home_screen.dart';
@@ -12,8 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
+        primarySwatch: yellowSwatch,
+        brightness: Brightness.light,
+        fontFamily: 'Montserrat',
       ),
       home: HomeScreen(),
     );
