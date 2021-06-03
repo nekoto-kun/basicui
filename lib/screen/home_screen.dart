@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _scrollController = ScrollController();
   }
 
   @override
@@ -271,6 +272,7 @@ class _HomeContentState extends State<HomeContent> {
         itemCount: 6,
         shrinkWrap: true,
         padding: EdgeInsets.zero,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, i) {
           return ListTile(
             leading: ClipRRect(
