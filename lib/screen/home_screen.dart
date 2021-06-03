@@ -40,14 +40,19 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-        controller: _tabController,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          HomeContent(scrollController: _scrollController),
-          ProfileScreen(),
-        ],
-      ),
+      body: MediaQuery.of(context).orientation == Orientation.portrait ||
+              MediaQuery.of(context).size.width <= 768
+          ? TabBarView(
+              controller: _tabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                HomeContent(scrollController: _scrollController),
+                ProfileScreen(),
+              ],
+            )
+          : HomeContent(
+              scrollController: _scrollController,
+            ),
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _tabController.index,
         onTap: (i) => setState(() => _tabController.animateTo(i)),
@@ -177,7 +182,11 @@ class _HomeContentState extends State<HomeContent> {
           borderRadius: BorderRadius.circular(16),
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
-        height: MediaQuery.of(context).size.height / 6.0,
+        height: MediaQuery.of(context).size.height *
+            (MediaQuery.of(context).orientation == Orientation.portrait ||
+                    MediaQuery.of(context).size.width <= 768
+                ? 1 / 6
+                : 2 / 5),
         child: Row(
           children: [
             Expanded(
@@ -186,7 +195,12 @@ class _HomeContentState extends State<HomeContent> {
                 padding: const EdgeInsets.all(16),
                 child: LayoutBuilder(
                   builder: (_, parent) => CircularPercentIndicator(
-                    radius: parent.maxWidth,
+                    radius: parent.maxWidth /
+                        (MediaQuery.of(context).orientation ==
+                                    Orientation.portrait ||
+                                MediaQuery.of(context).size.width <= 768
+                            ? 1
+                            : 2),
                     lineWidth: 12,
                     percent: .8,
                     animation: true,
