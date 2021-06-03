@@ -1,6 +1,6 @@
 # basicui
 
-A new Flutter project.
+Non-production app for submission in Dicoding course. Developed by Andre Yonathan Sukhoco.
 
 ## Getting Started
 
