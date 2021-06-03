@@ -1,7 +1,16 @@
-import 'package:basicui/screen/profile_screen.dart';
-import 'package:basicui/util/colors.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:ui';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:money2/money2.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+
+import '../screen/profile_screen.dart';
+import '../util/colors.dart';
+import '../util/dummy.dart';
+import '../widgets/card_carousel_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,146 +19,233 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        body: TabBarView(
-          children: [
-            HomeContent(),
-            HomeContent(),
-            ProfileScreen(),
-          ],
-        ),
+    return Scaffold(
+      body: TabBarView(
+        controller: _tabController,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          HomeContent(scrollController: _scrollController),
+          ProfileScreen(),
+        ],
+      ),
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: _tabController.index,
+        onTap: (i) => setState(() => _tabController.animateTo(i)),
+        items: [
+          SalomonBottomBarItem(
+            icon: Icon(FeatherIcons.home),
+            title: Text('Home', style: Theme.of(context).textTheme.bodyText1),
+            selectedColor: Color(0xFF2E2A2A),
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(FeatherIcons.user),
+            title:
+                Text('Profile', style: Theme.of(context).textTheme.bodyText1),
+            selectedColor: Color(0xFF2E2A2A),
+          ),
+        ],
       ),
     );
   }
 }
 
 class HomeContent extends StatefulWidget {
-  const HomeContent({Key? key}) : super(key: key);
+  final ScrollController scrollController;
+
+  const HomeContent({Key? key, required this.scrollController})
+      : super(key: key);
 
   @override
   _HomeContentState createState() => _HomeContentState();
 }
 
 class _HomeContentState extends State<HomeContent> {
-  late ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: _scrollController,
+        controller: widget.scrollController,
         child: Row(
           children: [
             Expanded(
               child: Column(
                 children: [
-                  Container(
-                    height: 240,
-                    color: Color(primaryYellow),
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 5,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Good morning',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Andre',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 28,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: AspectRatio(
-                                    aspectRatio: 1,
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFFFEEDA9),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Icon(Icons.person),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                  _header(),
+                  _goal(context),
+                  _lastTransactions(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _header() {
+    return Container(
+      height: 360,
+      color: Color(primaryYellow),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 48, 16, 32),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Good morning',
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
-                        Expanded(
-                          child: CardCarousel(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  HomeContainer(
-                    title: 'Current Goal',
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 5.0,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(8),
-                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Placeholder(),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              children: [
-                                Text('Lorem ipsum'),
-                                Text('Dolor sit amet'),
-                              ],
-                            ),
-                          ),
-                        ],
+                      SizedBox(height: 4),
+                      Text(
+                        'Andre',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 32,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFEEDA9),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.person),
                       ),
                     ),
                   ),
-                  Container(
-                    color: Colors.deepPurple,
-                    height: 200,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: CardCarousel(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  HomeContainer _goal(BuildContext context) {
+    return HomeContainer(
+      title: 'Current Goal',
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+            ),
+          ],
+          borderRadius: BorderRadius.circular(16),
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        height: MediaQuery.of(context).size.height / 6.0,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: LayoutBuilder(
+                  builder: (_, parent) => CircularPercentIndicator(
+                    radius: parent.maxWidth,
+                    lineWidth: 12,
+                    percent: .8,
+                    animation: true,
+                    animationDuration: 2000,
+                    circularStrokeCap: CircularStrokeCap.round,
+                    linearGradient: LinearGradient(
+                      colors: [Colors.blue, Colors.blue[300]!],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    center: AutoSizeText(
+                      '80%',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontFeatures: [
+                          FontFeature.tabularFigures(),
+                        ],
+                      ),
+                      maxFontSize: 24,
+                      minFontSize: 12,
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: AutoSizeText(
+                        'Accumulate IDR 1.500.000',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                        maxFontSize: 18,
+                        minFontSize: 6,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Expanded(
+                    flex: 8,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: AutoSizeText(
+                        'Interest every month with a savings account',
+                        maxFontSize: 16,
+                        minFontSize: 8,
+                        maxLines: 2,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -159,73 +255,36 @@ class _HomeContentState extends State<HomeContent> {
       ),
     );
   }
-}
 
-class CardCarousel extends StatefulWidget {
-  const CardCarousel({
-    Key? key,
-  }) : super(key: key);
+  HomeContainer _lastTransactions() {
+    Currency idr = Currency.create(
+      'IDR',
+      0,
+      symbol: 'Rp',
+      invertSeparators: true,
+      pattern: 'S0.000',
+    );
 
-  @override
-  _CardCarouselState createState() => _CardCarouselState();
-}
-
-class _CardCarouselState extends State<CardCarousel> {
-  int _current = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (_, parent) => Column(
-        children: [
-          CarouselSlider(
-            items: [1, 2, 3].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[600],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      'Card',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-            options: CarouselOptions(
-              height: parent.maxHeight - 28,
-              aspectRatio: 1.586,
-              enlargeCenterPage: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              },
+    return HomeContainer(
+      title: 'Transactions',
+      child: ListView.builder(
+        itemCount: 6,
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        itemBuilder: (_, i) {
+          return ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                'https://via.placeholder.com/80/000000/FFFFFF/?text=${i + 1}',
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [1, 2, 3].map((url) {
-              int index = [1, 2, 3].indexOf(url);
-              return Container(
-                width: 8.0,
-                height: 8.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
+            title: Text('${dummyData[i]['title']}'),
+            subtitle: Text('${dummyData[i]['category']}'),
+            trailing:
+                Text('${Money.fromInt(dummyData[i]['amount'] as int, idr)}'),
+          );
+        },
       ),
     );
   }
@@ -233,30 +292,43 @@ class _CardCarouselState extends State<CardCarousel> {
 
 class HomeContainer extends StatelessWidget {
   final String title;
+  final EdgeInsetsGeometry padding;
   final Widget child;
 
-  const HomeContainer({Key? key, required this.title, required this.child})
-      : super(key: key);
+  const HomeContainer({
+    Key? key,
+    required this.title,
+    required this.child,
+    this.padding = EdgeInsets.zero,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(24),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(title),
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-                child,
-              ],
-            ),
+              ),
+              Padding(
+                padding: padding,
+                child: child,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
