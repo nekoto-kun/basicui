@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basicui/screen/messages_screen.dart';
 import 'package:basicui/screen/transfers_screen.dart';
 import 'package:basicui/util/money.dart';
+import 'package:basicui/widgets/nav_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:money2/money2.dart';
@@ -171,20 +172,11 @@ class HomeContent extends StatelessWidget {
                     ],
                   ),
                 ),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFEEDA9),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(Icons.person),
-                      ),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: NavigationButton(
+                    color: Color(0xFFFEEDA9),
+                    child: Icon(FeatherIcons.user),
                   ),
                 ),
               ],
