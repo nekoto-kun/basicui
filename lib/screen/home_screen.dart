@@ -1,13 +1,16 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basicui/screen/messages_screen.dart';
+import 'package:basicui/screen/transfers_screen.dart';
+import 'package:basicui/util/money.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:money2/money2.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-import '../screen/profile_screen.dart';
+import 'settings_screen.dart';
 import '../util/colors.dart';
 import '../util/dummy.dart';
 import '../widgets/card_carousel_widget.dart';
@@ -27,12 +30,13 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -40,33 +44,54 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MediaQuery.of(context).orientation == Orientation.portrait ||
-              MediaQuery.of(context).size.width <= 768
-          ? TabBarView(
-              controller: _tabController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                HomeContent(scrollController: _scrollController),
-                ProfileScreen(),
-              ],
-            )
-          : HomeContent(
-              scrollController: _scrollController,
-            ),
+      body: TabBarView(
+        controller: _tabController,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          HomeContent(scrollController: _scrollController),
+          TransferScreen(),
+          MessageScreen(),
+          SettingScreen(scrollController: _scrollController),
+        ],
+      ),
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _tabController.index,
         onTap: (i) => setState(() => _tabController.animateTo(i)),
+        selectedItemColor: Color(0xFF2E2A2A),
+        unselectedItemColor: Colors.black38,
+        margin: const EdgeInsets.all(16),
         items: [
           SalomonBottomBarItem(
             icon: Icon(FeatherIcons.home),
-            title: Text('Home', style: Theme.of(context).textTheme.bodyText1),
-            selectedColor: Color(0xFF2E2A2A),
+            title: Text(
+              'Home',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            selectedColor: Colors.amber,
           ),
           SalomonBottomBarItem(
-            icon: Icon(FeatherIcons.user),
-            title:
-                Text('Profile', style: Theme.of(context).textTheme.bodyText1),
-            selectedColor: Color(0xFF2E2A2A),
+            icon: Icon(FeatherIcons.send),
+            title: Text(
+              'Transfers',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            selectedColor: Colors.blue,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(FeatherIcons.messageSquare),
+            title: Text(
+              'Messages',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            selectedColor: Colors.green,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(FeatherIcons.settings),
+            title: Text(
+              'Settings',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            selectedColor: Colors.indigo,
           ),
         ],
       ),
@@ -74,28 +99,23 @@ class _HomeScreenState extends State<HomeScreen>
   }
 }
 
-class HomeContent extends StatefulWidget {
+class HomeContent extends StatelessWidget {
   final ScrollController scrollController;
 
   const HomeContent({Key? key, required this.scrollController})
       : super(key: key);
 
   @override
-  _HomeContentState createState() => _HomeContentState();
-}
-
-class _HomeContentState extends State<HomeContent> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: widget.scrollController,
+        controller: scrollController,
         child: Row(
           children: [
             Expanded(
               child: Column(
                 children: [
-                  _header(),
+                  _header(context),
                   _goal(context),
                   _lastTransactions(),
                 ],
@@ -107,35 +127,46 @@ class _HomeContentState extends State<HomeContent> {
     );
   }
 
-  Container _header() {
+  Container _header(BuildContext context) {
     return Container(
-      height: 360,
+      height: 372,
       color: Color(primaryYellow),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
+          Container(
             padding: const EdgeInsets.fromLTRB(16, 48, 16, 32),
             child: Row(
               children: [
                 Expanded(
-                  flex: 5,
+                  flex: MediaQuery.of(context).orientation ==
+                              Orientation.portrait ||
+                          MediaQuery.of(context).size.width <= 768
+                      ? 5
+                      : 11,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      AutoSizeText(
                         'Good morning',
                         style: TextStyle(
                           fontSize: 18,
                         ),
+                        maxFontSize: 18,
+                        minFontSize: 8,
+                        maxLines: 1,
                       ),
                       SizedBox(height: 4),
-                      Text(
+                      AutoSizeText(
                         'Andre',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 32,
                         ),
+                        maxFontSize: 32,
+                        minFontSize: 16,
+                        maxLines: 1,
                       ),
                     ],
                   ),
@@ -159,9 +190,7 @@ class _HomeContentState extends State<HomeContent> {
               ],
             ),
           ),
-          Expanded(
-            child: CardCarousel(),
-          ),
+          Expanded(child: CardCarousel()),
         ],
       ),
     );
@@ -238,7 +267,7 @@ class _HomeContentState extends State<HomeContent> {
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: AutoSizeText(
-                        'Accumulate IDR 1.500.000',
+                        'Accumulate Rp1.500.000',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
@@ -272,14 +301,6 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   HomeContainer _lastTransactions() {
-    Currency idr = Currency.create(
-      'IDR',
-      0,
-      symbol: 'Rp',
-      invertSeparators: true,
-      pattern: 'S0.000',
-    );
-
     return HomeContainer(
       title: 'Transactions',
       child: ListView.builder(
@@ -291,8 +312,8 @@ class _HomeContentState extends State<HomeContent> {
           return ListTile(
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                'https://via.placeholder.com/80/000000/FFFFFF/?text=${i + 1}',
+              child: Image.asset(
+                'assets/icons/${dummyData[i]['image']}',
               ),
             ),
             title: Text('${dummyData[i]['title']}'),
