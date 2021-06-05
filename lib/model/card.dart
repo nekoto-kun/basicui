@@ -1,4 +1,5 @@
 class BankCard {
+  int id;
   String name;
   String color;
   String cardNumber;
@@ -6,6 +7,7 @@ class BankCard {
   int balance;
 
   BankCard({
+    required this.id,
     required this.name,
     required this.color,
     required this.cardNumber,

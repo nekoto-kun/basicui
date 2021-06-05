@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basicui/screen/card_detail_screen.dart';
 import 'package:basicui/util/dummy.dart';
 import 'package:basicui/util/money.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -64,52 +65,60 @@ class _CardCarouselState extends State<CardCarousel> {
                   String? _imagePath = _cardLogoPath('${i.type}');
                   return AspectRatio(
                     aspectRatio: 1.586,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: _cardColor('${i.color}'),
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => CardDetailScreen(card: i),
+                        ),
                       ),
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AutoSizeText(
-                            '${i.name}',
-                            style: _cardTextStyle('${i.color}').copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: _cardColor('${i.color}'),
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoSizeText(
+                              '${i.name}',
+                              style: _cardTextStyle('${i.color}').copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: AutoSizeText(
-                              '${Money.fromInt(i.balance, idr)}',
-                              style: _cardTextStyle(
-                                '${i.color}',
-                                opacity: .5,
-                              ).copyWith(fontFamily: 'Fira Code'),
+                            Expanded(
+                              child: AutoSizeText(
+                                '${Money.fromInt(i.balance, idr)}',
+                                style: _cardTextStyle(
+                                  '${i.color}',
+                                  opacity: .5,
+                                ).copyWith(fontFamily: 'Fira Code'),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: AutoSizeText(
-                                    '${i.cardNumber}',
-                                    style: _cardTextStyle('${i.color}')
-                                        .copyWith(fontFamily: 'Fira Code'),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      '${i.cardNumber}',
+                                      style: _cardTextStyle('${i.color}')
+                                          .copyWith(fontFamily: 'Fira Code'),
+                                    ),
                                   ),
-                                ),
-                                if (_imagePath != null)
-                                  Image(
-                                    image: AssetImage(_imagePath),
-                                    height: 60,
-                                  ),
-                              ],
+                                  if (_imagePath != null)
+                                    Image(
+                                      image: AssetImage(_imagePath),
+                                      height: 60,
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );

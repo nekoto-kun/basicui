@@ -48,6 +48,7 @@ final dummyData = <Transaction>[
 
 final cards = <BankCard>[
   BankCard(
+    id: 1,
     name: 'General Debit',
     color: 'dark',
     cardNumber: '1234 5678 9876 3210',
@@ -55,6 +56,7 @@ final cards = <BankCard>[
     balance: 5000000,
   ),
   BankCard(
+    id: 2,
     name: 'Freelance Debit',
     color: 'white',
     cardNumber: '1234 5678 9876 3210',
@@ -62,6 +64,7 @@ final cards = <BankCard>[
     balance: 1700000,
   ),
   BankCard(
+    id: 3,
     name: 'Billing Debit',
     color: 'blue',
     cardNumber: '1234 5678 9876 3210',
