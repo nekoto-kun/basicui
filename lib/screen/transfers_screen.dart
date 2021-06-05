@@ -1,3 +1,4 @@
+import 'package:basicui/widgets/flex_appbar.dart';
 import 'package:flutter/material.dart';
 
 class TransferScreen extends StatelessWidget {
@@ -6,7 +7,14 @@ class TransferScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('Transfer')),
+      body: NestedScrollView(
+        headerSliverBuilder: (_, innerBoxIsScrolled) => [
+          FlexAppBar(title: 'Transfers'),
+        ],
+        body: Center(
+          child: Text("Sample Text"),
+        ),
+      ),
     );
   }
 }

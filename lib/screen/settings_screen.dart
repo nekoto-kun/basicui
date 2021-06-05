@@ -1,3 +1,4 @@
+import 'package:basicui/widgets/flex_appbar.dart';
 import 'package:flutter/material.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -9,22 +10,12 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: [
-            Container(
-              child: Text('Title'),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (_, i) {
-                return ListTile(
-                  title: Text('$i'),
-                );
-              },
-            ),
-          ],
+      body: NestedScrollView(
+        headerSliverBuilder: (_, innerBoxIsScrolled) => [
+          FlexAppBar(title: 'Settings'),
+        ],
+        body: Center(
+          child: Text("Sample Text"),
         ),
       ),
     );

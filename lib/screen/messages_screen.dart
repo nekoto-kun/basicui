@@ -1,3 +1,4 @@
+import 'package:basicui/widgets/flex_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MessageScreen extends StatelessWidget {
@@ -6,7 +7,14 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('Message')),
+      body: NestedScrollView(
+        headerSliverBuilder: (_, innerBoxIsScrolled) => [
+          FlexAppBar(title: 'Messages'),
+        ],
+        body: Center(
+          child: Text("Sample Text"),
+        ),
+      ),
     );
   }
 }
