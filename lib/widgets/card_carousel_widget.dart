@@ -61,7 +61,7 @@ class _CardCarouselState extends State<CardCarousel> {
             items: cards.map((i) {
               return Builder(
                 builder: (BuildContext context) {
-                  String? _imagePath = _cardLogoPath('${i['type']}');
+                  String? _imagePath = _cardLogoPath('${i.type}');
                   return AspectRatio(
                     aspectRatio: 1.586,
                     child: Container(
@@ -69,24 +69,24 @@ class _CardCarouselState extends State<CardCarousel> {
                       margin: EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: _cardColor('${i['color']}'),
+                        color: _cardColor('${i.color}'),
                       ),
                       padding: EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            '${i['name']}',
-                            style: _cardTextStyle('${i['color']}').copyWith(
+                            '${i.name}',
+                            style: _cardTextStyle('${i.color}').copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
                           ),
                           Expanded(
                             child: AutoSizeText(
-                              '${Money.fromInt(i['balance'] as int, idr)}',
+                              '${Money.fromInt(i.balance, idr)}',
                               style: _cardTextStyle(
-                                '${i['color']}',
+                                '${i.color}',
                                 opacity: .5,
                               ).copyWith(fontFamily: 'Fira Code'),
                             ),
@@ -96,8 +96,8 @@ class _CardCarouselState extends State<CardCarousel> {
                               children: [
                                 Expanded(
                                   child: AutoSizeText(
-                                    '${i['number']}',
-                                    style: _cardTextStyle('${i['color']}')
+                                    '${i.cardNumber}',
+                                    style: _cardTextStyle('${i.color}')
                                         .copyWith(fontFamily: 'Fira Code'),
                                   ),
                                 ),

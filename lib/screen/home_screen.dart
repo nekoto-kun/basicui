@@ -313,13 +313,12 @@ class HomeContent extends StatelessWidget {
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                'assets/icons/${dummyData[i]['image']}',
+                'assets/icons/${dummyData[i].image}',
               ),
             ),
-            title: Text('${dummyData[i]['title']}'),
-            subtitle: Text('${dummyData[i]['category']}'),
-            trailing:
-                Text('${Money.fromInt(dummyData[i]['amount'] as int, idr)}'),
+            title: Text('${dummyData[i].title}'),
+            subtitle: Text('${dummyData[i].category}'),
+            trailing: Text('${Money.fromInt(dummyData[i].amount, idr)}'),
           );
         },
       ),
