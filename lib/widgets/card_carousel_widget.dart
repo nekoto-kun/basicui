@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basicui/screen/card_detail_screen.dart';
 import 'package:basicui/util/dummy.dart';
+import 'package:basicui/util/misc.dart';
 import 'package:basicui/util/money.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -18,41 +19,6 @@ class CardCarousel extends StatefulWidget {
 class _CardCarouselState extends State<CardCarousel> {
   int _current = 0;
 
-  String? _cardLogoPath(String? type) {
-    switch (type) {
-      case 'visa':
-        return 'assets/icons/visa.png';
-      case 'mastercard':
-        return 'assets/icons/mastercard-logo.png';
-    }
-  }
-
-  Color _cardColor(String color) {
-    switch (color) {
-      case 'dark':
-        return Colors.grey[800]!;
-      case 'white':
-        return Colors.white;
-      case 'blue':
-        return Colors.blue[900]!;
-      default:
-        return Colors.white;
-    }
-  }
-
-  TextStyle _cardTextStyle(String color, {double opacity = 1.0}) {
-    switch (color) {
-      case 'dark':
-        return TextStyle(color: Colors.white.withOpacity(opacity));
-      case 'white':
-        return TextStyle(color: Color(0xFF2E2A2A).withOpacity(opacity));
-      case 'blue':
-        return TextStyle(color: Colors.white.withOpacity(opacity));
-      default:
-        return TextStyle(color: Color(0xFF2E2A2A).withOpacity(opacity));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -62,7 +28,7 @@ class _CardCarouselState extends State<CardCarousel> {
             items: cards.map((i) {
               return Builder(
                 builder: (BuildContext context) {
-                  String? _imagePath = _cardLogoPath('${i.type}');
+                  String? _imagePath = cardLogoPath('${i.type}');
                   return AspectRatio(
                     aspectRatio: 1.586,
                     child: GestureDetector(
@@ -77,7 +43,7 @@ class _CardCarouselState extends State<CardCarousel> {
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: _cardColor('${i.color}'),
+                          color: cardColor('${i.color}'),
                         ),
                         padding: EdgeInsets.all(16),
                         child: Column(
@@ -85,7 +51,7 @@ class _CardCarouselState extends State<CardCarousel> {
                           children: [
                             AutoSizeText(
                               '${i.name}',
-                              style: _cardTextStyle('${i.color}').copyWith(
+                              style: cardTextStyle('${i.color}').copyWith(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
                               ),
@@ -93,7 +59,7 @@ class _CardCarouselState extends State<CardCarousel> {
                             Expanded(
                               child: AutoSizeText(
                                 '${Money.fromInt(i.balance, idr)}',
-                                style: _cardTextStyle(
+                                style: cardTextStyle(
                                   '${i.color}',
                                   opacity: .5,
                                 ).copyWith(fontFamily: 'Fira Code'),
@@ -105,7 +71,7 @@ class _CardCarouselState extends State<CardCarousel> {
                                   Expanded(
                                     child: AutoSizeText(
                                       '${i.cardNumber}',
-                                      style: _cardTextStyle('${i.color}')
+                                      style: cardTextStyle('${i.color}')
                                           .copyWith(fontFamily: 'Fira Code'),
                                     ),
                                   ),
