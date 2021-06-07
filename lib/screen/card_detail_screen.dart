@@ -28,40 +28,34 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(MediaQuery.of(context).size.width, 64),
-        child: Container(
-          margin: EdgeInsets.only(top: 36),
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              NavigationButton(
-                child: Icon(FeatherIcons.arrowLeft),
-                color: Theme.of(context).scaffoldBackgroundColor,
-                displayShadow: true,
-              ),
-              Expanded(
-                child: Center(
-                  child: AutoSizeText(
-                    '${widget.card.name}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                    ),
-                    maxFontSize: 18,
-                    minFontSize: 12,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              NavigationButton(
-                child: Icon(FeatherIcons.settings),
-                color: Theme.of(context).scaffoldBackgroundColor,
-                displayShadow: true,
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 84,
+        title: Text(
+          '${widget.card.name}',
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
+        centerTitle: true,
+        leading: NavigationButton(
+          displayShadow: true,
+          child: Icon(FeatherIcons.arrowLeft),
+          color: Theme.of(context).scaffoldBackgroundColor,
+          margin: EdgeInsets.all(16),
+        ),
+        leadingWidth: 84,
+        actions: [
+          SizedBox(
+            width: 84,
+            child: NavigationButton(
+              displayShadow: true,
+              child: Icon(FeatherIcons.settings),
+              color: Theme.of(context).scaffoldBackgroundColor,
+              margin: EdgeInsets.all(16),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
