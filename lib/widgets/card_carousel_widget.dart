@@ -1,11 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:basicui/screen/card_detail_screen.dart';
-import 'package:basicui/util/dummy.dart';
-import 'package:basicui/util/misc.dart';
-import 'package:basicui/util/money.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:money2/money2.dart';
+
+import '../model/card.dart';
+import '../screen/card_detail_screen.dart';
+import '../util/dummy.dart';
+import '../util/misc.dart';
+import '../util/money.dart';
 
 class CardCarousel extends StatefulWidget {
   const CardCarousel({
@@ -25,70 +27,9 @@ class _CardCarouselState extends State<CardCarousel> {
       builder: (_, parent) => Column(
         children: [
           CarouselSlider(
-            items: cards.map((i) {
+            items: dummyCards.map((i) {
               return Builder(
-                builder: (BuildContext context) {
-                  String? _imagePath = cardLogoPath('${i.type}');
-                  return AspectRatio(
-                    aspectRatio: 1.586,
-                    child: GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => CardDetailScreen(card: i),
-                        ),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: cardColor('${i.color}'),
-                        ),
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AutoSizeText(
-                              '${i.name}',
-                              style: cardTextStyle('${i.color}').copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Expanded(
-                              child: AutoSizeText(
-                                '${Money.fromInt(i.balance, idr)}',
-                                style: cardTextStyle(
-                                  '${i.color}',
-                                  opacity: .5,
-                                ).copyWith(fontFamily: 'Fira Code'),
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      '${i.cardNumber}',
-                                      style: cardTextStyle('${i.color}')
-                                          .copyWith(fontFamily: 'Fira Code'),
-                                    ),
-                                  ),
-                                  if (_imagePath != null)
-                                    Image(
-                                      image: AssetImage(_imagePath),
-                                      height: 60,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                builder: (_) => BankCardWidget(data: i),
               );
             }).toList(),
             options: CarouselOptions(
@@ -108,8 +49,8 @@ class _CardCarouselState extends State<CardCarousel> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: cards.map((url) {
-              int index = cards.indexOf(url);
+            children: dummyCards.map((url) {
+              int index = dummyCards.indexOf(url);
               return Container(
                 width: 8,
                 height: 8,
@@ -123,6 +64,80 @@ class _CardCarouselState extends State<CardCarousel> {
             }).toList(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BankCardWidget extends StatelessWidget {
+  const BankCardWidget({
+    Key? key,
+    required BankCard data,
+  })  : _data = data,
+        super(key: key);
+
+  final BankCard _data;
+
+  @override
+  Widget build(BuildContext context) {
+    String? _imagePath = cardLogoPath('${_data.type}');
+    return AspectRatio(
+      aspectRatio: 1.586,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CardDetailScreen(card: _data),
+          ),
+        ),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: cardColor('${_data.color}'),
+          ),
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                '${_data.name}',
+                style: cardTextStyle('${_data.color}').copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+              Expanded(
+                child: AutoSizeText(
+                  '${Money.fromInt(_data.balance, idr)}',
+                  style: cardTextStyle(
+                    '${_data.color}',
+                    opacity: .5,
+                  ).copyWith(fontFamily: 'Fira Code'),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AutoSizeText(
+                        '${_data.cardNumber}',
+                        style: cardTextStyle('${_data.color}')
+                            .copyWith(fontFamily: 'Fira Code'),
+                      ),
+                    ),
+                    if (_imagePath != null)
+                      Image(
+                        image: AssetImage(_imagePath),
+                        height: 60,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
