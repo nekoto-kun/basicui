@@ -1,7 +1,8 @@
-import 'package:basicui/model/card.dart';
-import 'package:basicui/model/transaction.dart';
+import '../model/card.dart';
+import '../model/transaction.dart';
+import '../model/writeoff.dart';
 
-final dummyData = <Transaction>[
+final dummyTransactions = <Transaction>[
   Transaction(
     id: 1,
     title: 'Ordered Lele × 2',
@@ -46,7 +47,7 @@ final dummyData = <Transaction>[
   ),
 ];
 
-final cards = <BankCard>[
+final dummyCards = <BankCard>[
   BankCard(
     id: 1,
     name: 'General Debit',
@@ -70,5 +71,36 @@ final cards = <BankCard>[
     cardNumber: '1234 5678 9876 3210',
     type: 'mastercard',
     balance: 2100000,
+  ),
+];
+
+final dummyWriteOffs = <WriteOff>[
+  WriteOff(
+    name: 'Netflix',
+    amount: 186000,
+    category: 'Subscription',
+    daysBeforeCancel: 4,
+    assetIcon: 'netflix-desktop-app.png',
+  ),
+  WriteOff(
+    name: 'Citi Bank',
+    amount: 200000,
+    category: 'Payment',
+    daysBeforeCancel: 15,
+    assetIcon: 'citibank-squared.png',
+  ),
+  WriteOff(
+    name: 'Duolingo',
+    amount: 175000,
+    category: 'Subscription',
+    daysBeforeCancel: 9,
+    assetIcon: 'duolingo-logo.png',
+  ),
+  WriteOff(
+    name: 'Medium',
+    amount: 135500,
+    category: 'Subscription',
+    daysBeforeCancel: 21,
+    assetIcon: 'medium-logo.png',
   ),
 ];
