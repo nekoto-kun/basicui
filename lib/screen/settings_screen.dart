@@ -1,5 +1,6 @@
-import 'package:basicui/widgets/flex_appbar.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/flex_appbar.dart';
 
 class SettingScreen extends StatelessWidget {
   final ScrollController scrollController;
