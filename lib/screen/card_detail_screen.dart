@@ -53,6 +53,7 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
           child: Icon(FeatherIcons.arrowLeft),
           color: Colors.white,
           margin: EdgeInsets.all(24),
+          onTap: () => Navigator.of(context).pop(),
         ),
         leadingWidth: 100,
         actions: [
