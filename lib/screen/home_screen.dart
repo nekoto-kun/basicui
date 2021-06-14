@@ -129,7 +129,7 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Container _header(BuildContext context) {
+  Widget _header(BuildContext context) {
     return Container(
       height: 372,
       color: Color(primaryYellow),
@@ -189,7 +189,7 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  HomeContainer _goal(BuildContext context) {
+  Widget _goal(BuildContext context) {
     return HomeContainer(
       title: 'Current Goal',
       padding: EdgeInsets.symmetric(horizontal: 24),
@@ -296,7 +296,7 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  HomeContainer _lastTransactions() {
+  Widget _lastTransactions() {
     return HomeContainer(
       title: 'Transactions',
       child: ListView.builder(
