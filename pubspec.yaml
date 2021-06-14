@@ -19,6 +19,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_feather_icons: ^2.0.0
   horizontal_card_pager: ^1.1.1
+  intl: ^0.17.0
   money2: ^2.1.4
   percent_indicator: ^3.0.1
   salomon_bottom_bar: ^3.0.0
