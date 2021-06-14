@@ -1,4 +1,5 @@
 import '../model/card.dart';
+import '../model/message.dart';
 import '../model/transaction.dart';
 import '../model/writeoff.dart';
 
@@ -102,5 +103,44 @@ final dummyWriteOffs = <WriteOff>[
     category: 'Subscription',
     daysBeforeCancel: 21,
     assetIcon: 'medium-logo.png',
+  ),
+];
+
+final messages = <Message>[
+  Message(
+    id: 1,
+    message: 'Ahoy!',
+    sender: 'Billy',
+    sentBy: DateTime.now(),
+  ),
+  Message(
+    id: 2,
+    message: 'What do you do?',
+    sender: 'Alissa',
+    sentBy: DateTime.now(),
+  ),
+  Message(
+    id: 3,
+    message: 'I\'ve sent the money',
+    sender: 'Cal',
+    sentBy: DateTime.now(),
+  ),
+  Message(
+    id: 4,
+    message: 'You owe me this much!',
+    sender: 'Dustin',
+    sentBy: DateTime.now(),
+  ),
+  Message(
+    id: 5,
+    message: 'When will you pay?!',
+    sender: 'Erikk',
+    sentBy: DateTime.now(),
+  ),
+  Message(
+    id: 6,
+    message: 'This is your payment. Take care.',
+    sender: 'Fiona',
+    sentBy: DateTime.now(),
   ),
 ];
