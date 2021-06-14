@@ -27,11 +27,7 @@ class _CardCarouselState extends State<CardCarousel> {
       builder: (_, parent) => Column(
         children: [
           CarouselSlider(
-            items: dummyCards.map((i) {
-              return Builder(
-                builder: (_) => BankCardWidget(data: i),
-              );
-            }).toList(),
+            items: dummyCards.map((i) => BankCardWidget(data: i)).toList(),
             options: CarouselOptions(
               height: parent.maxHeight - 48,
               aspectRatio: 1.586,
@@ -40,11 +36,8 @@ class _CardCarouselState extends State<CardCarousel> {
                   MediaQuery.of(context).orientation == Orientation.portrait
                       ? .6
                       : .3,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              },
+              onPageChanged: (index, reason) =>
+                  setState(() => _current = index),
             ),
           ),
           Row(
