@@ -64,6 +64,14 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
               child: Icon(FeatherIcons.settings),
               color: Colors.white,
               margin: EdgeInsets.all(24),
+              onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Will be implemented soon!',
+                    style: TextStyle(fontFamily: 'Montserrat'),
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -93,7 +101,14 @@ class _CardDetailScreenState extends State<CardDetailScreen> {
               ),
             ),
           ),
-          onPressed: () => print('Ehe'),
+          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Will be implemented soon!',
+                style: TextStyle(fontFamily: 'Montserrat'),
+              ),
+            ),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -362,26 +377,37 @@ class CardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,
-      child: Container(
-        padding: padding,
-        decoration: BoxDecoration(
-          borderRadius: radius ?? BorderRadius.circular(24),
-          color: color,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            icon,
-            AutoSizeText(
-              text,
-              style: TextStyle(fontWeight: FontWeight.w500),
-              maxFontSize: 16,
-              minFontSize: 4,
-              maxLines: 1,
+      child: InkWell(
+        borderRadius: radius ?? BorderRadius.circular(24),
+        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Will be implemented soon!',
+              style: TextStyle(fontFamily: 'Montserrat'),
             ),
-          ],
+          ),
+        ),
+        child: Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            borderRadius: radius ?? BorderRadius.circular(24),
+            color: color,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              icon,
+              AutoSizeText(
+                text,
+                style: TextStyle(fontWeight: FontWeight.w500),
+                maxFontSize: 16,
+                minFontSize: 4,
+                maxLines: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -67,7 +67,10 @@ class _HomeScreenState extends State<HomeScreen>
             icon: Icon(FeatherIcons.home),
             title: Text(
               'Home',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.amber[600]),
             ),
             selectedColor: Colors.amber,
           ),
@@ -75,7 +78,10 @@ class _HomeScreenState extends State<HomeScreen>
             icon: Icon(FeatherIcons.send),
             title: Text(
               'Transfers',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.blue[600]),
             ),
             selectedColor: Colors.blue,
           ),
@@ -83,7 +89,10 @@ class _HomeScreenState extends State<HomeScreen>
             icon: Icon(FeatherIcons.messageSquare),
             title: Text(
               'Messages',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.green[600]),
             ),
             selectedColor: Colors.green,
           ),
@@ -91,7 +100,10 @@ class _HomeScreenState extends State<HomeScreen>
             icon: Icon(FeatherIcons.settings),
             title: Text(
               'Settings',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: Colors.indigo[600]),
             ),
             selectedColor: Colors.indigo,
           ),
@@ -178,6 +190,14 @@ class HomeContent extends StatelessWidget {
                   child: NavigationButton(
                     color: Color(0xFFFEEDA9),
                     child: Icon(FeatherIcons.user),
+                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Yeah, profile will be available soon!',
+                          style: TextStyle(fontFamily: 'Montserrat'),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
